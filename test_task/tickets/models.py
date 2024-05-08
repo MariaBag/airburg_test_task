@@ -14,6 +14,6 @@ class Passenger(models.Model):
 class Ticket(models.Model):
     destination = models.ForeignKey(Station, on_delete=models.CASCADE, related_name="destination_place")
     departure_place = models.ForeignKey(Station, on_delete=models.CASCADE, related_name="departure_place")
-    departure_date = models.DateTimeField()
+    departure_date = models.DateField()
     passenger = models.ForeignKey(Passenger, on_delete=models.CASCADE)
     price = models.FloatField(default=0.0)
