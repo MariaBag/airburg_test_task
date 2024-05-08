@@ -1,4 +1,5 @@
 from datetime import datetime
+from random import randint
 
 from rest_framework.validators import UniqueTogetherValidator
 
@@ -18,16 +19,11 @@ class StationSerializer(serializers.HyperlinkedModelSerializer):
         ]
 
 
-class PassengerSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Passenger
-        fields = ['name']
-
-
 class TicketSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Ticket
         fields = ['destination', 'departure_place', 'departure_date', 'passenger', 'price']
+        read_only_fields = ['price', 'passenger']
 
     def validate(self, data):
         if data["departure_place"] == data["destination"]:
@@ -36,3 +32,19 @@ class TicketSerializer(serializers.HyperlinkedModelSerializer):
         if data["departure_date"] < datetime.today().date():
             raise serializers.ValidationError({"departure_date": "departure_date can't be in the past"})
         return data
+
+    def create(self, validated_data):
+        validated_data['price'] = randint(100, 500)
+        return super().create(validated_data)
+
+
+class PassengerSerializer(serializers.HyperlinkedModelSerializer):
+    tickets = serializers.HyperlinkedRelatedField(
+        many=True,
+        read_only=True,
+        view_name='ticket-detail'
+    )
+
+    class Meta:
+        model = Passenger
+        fields = ['user_id', 'tickets']
