@@ -1,7 +1,14 @@
+from django.contrib.auth.models import User
 from rest_framework import viewsets, permissions
 
 from .models import Ticket, Station, Passenger
-from .serializers import PassengerSerializer, StationSerializer, TicketSerializer
+from .serializers import PassengerSerializer, StationSerializer, TicketSerializer, UserSerializer
+
+
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [permissions.AllowAny]
 
 
 class PassengerViewSet(viewsets.ModelViewSet):

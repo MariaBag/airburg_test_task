@@ -3,7 +3,7 @@ from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import routers, permissions
 
-from tickets.views import StationViewSet, PassengerViewSet, TicketsViewSet
+from tickets.views import StationViewSet, PassengerViewSet, TicketsViewSet, UserViewSet
 
 schema_view = get_schema_view(
    openapi.Info(
@@ -19,6 +19,7 @@ router = routers.DefaultRouter()
 router.register(r'stations', StationViewSet)
 router.register(r'passengers', PassengerViewSet)
 router.register(r'tickets', TicketsViewSet)
+router.register(r'users', UserViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),

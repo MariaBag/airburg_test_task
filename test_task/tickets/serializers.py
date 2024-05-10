@@ -1,10 +1,28 @@
 from datetime import datetime
 from random import randint
 
+from django.contrib.auth.models import User
 from rest_framework.validators import UniqueTogetherValidator
 
 from .models import Station, Passenger, Ticket
 from rest_framework import serializers
+
+
+class UserSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True)
+
+    class Meta:
+        model = User
+        fields = ("id", "username", "password")
+
+    def create(self, validated_data):
+        user = User.objects.create_user(
+            username=validated_data['username'],
+            password=validated_data['password'],
+            is_staff=False,
+            is_superuser=False
+        )
+        return user
 
 
 class StationSerializer(serializers.HyperlinkedModelSerializer):
