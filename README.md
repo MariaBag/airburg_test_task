@@ -12,6 +12,7 @@
 
 ## Запуск:
 1. docker compose build
-2. docker compose up
+2. docker compose up -d
+3. http://localhost:8000/
 
 Пароль для admin: admin12345
