@@ -1,0 +1,8 @@
+services:
+  test_task:
+    image: test_task
+    build: ./
+    restart: always
+    container_name: 'test_task'
+    ports:
+       - '8000:8000'
